@@ -1,0 +1,175 @@
+<header class="navbar" id="navbar">
+  <div class="container navbar-inner">
+
+    <!-- LOGO -->
+    <a href="{% url 'home' %}" class="nav-logo">
+      <div class="nav-logo-icon">E</div>
+      <div class="nav-logo-text">ELON<span>.UZ</span></div>
+    </a>
+
+    <!-- SEARCH -->
+    <form class="nav-search" action="{% url 'home' %}" method="GET" role="search">
+      <div class="nav-search-wrap">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-search-ico"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" name="q" placeholder="E'lon yoki kategoriya qidiring..."
+          value="{{ request.GET.q }}" autocomplete="off" aria-label="Qidirish">
+        {% if request.GET.q %}
+        <a href="{% url 'home' %}" class="nav-search-clear" title="Tozalash">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </a>
+        {% endif %}
+      </div>
+    </form>
+
+    <!-- DESKTOP NAV -->
+    <nav class="nav-links">
+      <a href="{% url 'home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+        Bosh sahifa
+      </a>
+      {% if user.is_staff %}
+      <div class="nav-sep"></div>
+      <a href="{% url 'add_advesn' %}" class="btn btn-primary btn-sm">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        E'lon qo'shish
+      </a>
+      <a href="{% url 'add_category' %}" class="btn btn-outline btn-sm">Kategoriya</a>
+      {% endif %}
+    </nav>
+
+    <!-- BURGER -->
+    <button class="nav-burger" id="burgerBtn" aria-label="Menyu" aria-expanded="false">
+      <svg class="ico-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg class="ico-x" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+
+  </div>
+
+  <!-- MOBILE DRAWER -->
+  <div class="nav-drawer" id="navDrawer">
+    <div class="container">
+      <form action="{% url 'home' %}" method="GET" class="drawer-search">
+        <input type="text" name="q" placeholder="Qidirish..." value="{{ request.GET.q }}">
+        <button type="submit" class="btn btn-primary btn-sm">Qidirish</button>
+      </form>
+      <div class="drawer-links">
+        <a href="{% url 'home' %}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+          Bosh sahifa
+        </a>
+        {% if user.is_staff %}
+        <a href="{% url 'add_advesn' %}" class="hl">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          E'lon qo'shish
+        </a>
+        <a href="{% url 'add_category' %}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Kategoriya qo'shish
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+.navbar {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(15,15,15,0.90);
+  backdrop-filter: blur(20px) saturate(160%);
+  border-bottom: 1px solid var(--border);
+}
+.navbar-inner { display: flex; align-items: center; gap: 14px; height: 68px; }
+
+.nav-logo { display: flex; align-items: center; gap: 9px; flex-shrink: 0; }
+.nav-logo-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--accent); color: #fff;
+  font-family: 'Playfair Display', serif; font-weight: 900; font-size: 20px;
+  display: flex; align-items: center; justify-content: center;
+  transition: box-shadow 0.3s;
+}
+.nav-logo:hover .nav-logo-icon { box-shadow: 0 0 16px rgba(255,92,0,0.4); }
+.nav-logo-text {
+  font-family: 'Playfair Display', serif; font-weight: 800;
+  font-size: 18px; letter-spacing: -0.01em;
+}
+.nav-logo-text span { color: var(--accent); }
+
+.nav-search { flex: 1; max-width: 420px; }
+.nav-search-wrap { position: relative; display: flex; align-items: center; }
+.nav-search-ico { position: absolute; left: 13px; color: var(--text3); pointer-events: none; }
+.nav-search-wrap input {
+  width: 100%; background: var(--bg3); border: 1px solid var(--border);
+  color: var(--text); padding: 9px 36px 9px 36px;
+  border-radius: 100px; font-size: 14px; outline: none;
+  transition: border-color var(--t), box-shadow var(--t);
+  font-family: 'DM Sans', sans-serif;
+}
+.nav-search-wrap input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255,92,0,0.12);
+}
+.nav-search-wrap input::placeholder { color: var(--text3); }
+.nav-search-clear {
+  position: absolute; right: 12px; color: var(--text3);
+  display: flex; align-items: center; transition: color var(--t);
+}
+.nav-search-clear:hover { color: var(--text); }
+
+.nav-links { display: flex; align-items: center; gap: 6px; margin-left: auto; flex-shrink: 0; }
+.nav-link {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 14px; font-weight: 500; color: var(--text2);
+  padding: 7px 11px; border-radius: var(--r-xs); transition: all var(--t);
+}
+.nav-link:hover { color: var(--text); background: var(--bg3); }
+.nav-link.active { color: var(--text); }
+.nav-sep { width: 1px; height: 18px; background: var(--border2); margin: 0 3px; }
+
+.nav-burger {
+  display: none; background: none; border: none;
+  color: var(--text); padding: 5px; margin-left: auto;
+  border-radius: var(--r-xs); transition: background var(--t);
+}
+.nav-burger:hover { background: var(--bg3); }
+
+.nav-drawer { display: none; border-top: 1px solid var(--border); padding: 14px 0 18px; background: var(--bg2); }
+.nav-drawer.open { display: block; animation: fadeIn 0.2s ease; }
+.drawer-search { display: flex; gap: 8px; margin-bottom: 14px; }
+.drawer-search input {
+  flex: 1; background: var(--bg3); border: 1px solid var(--border);
+  color: var(--text); padding: 9px 14px;
+  border-radius: var(--r-sm); font-size: 14px; outline: none;
+  font-family: 'DM Sans', sans-serif;
+}
+.drawer-links { display: flex; flex-direction: column; gap: 2px; }
+.drawer-links a {
+  display: flex; align-items: center; gap: 11px;
+  padding: 12px 8px; color: var(--text2); font-size: 15px;
+  border-bottom: 1px solid var(--border); transition: all var(--t);
+  border-radius: var(--r-xs);
+}
+.drawer-links a:hover { color: var(--text); padding-left: 14px; }
+.drawer-links a.hl { color: var(--accent); }
+
+@media (max-width: 768px) {
+  .nav-search { display: none; }
+  .nav-links  { display: none; }
+  .nav-burger { display: flex; }
+}
+</style>
+
+<script>
+(function(){
+  const btn = document.getElementById('burgerBtn');
+  const drawer = document.getElementById('navDrawer');
+  if (!btn || !drawer) return;
+  btn.addEventListener('click', () => {
+    const open = drawer.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+    btn.querySelector('.ico-menu').style.display = open ? 'none' : '';
+    btn.querySelector('.ico-x').style.display    = open ? ''     : 'none';
+  });
+})();
+</script>

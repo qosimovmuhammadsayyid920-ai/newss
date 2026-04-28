@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}E'lonni o'chirish — Elon.uz{% endblock %}
+
+{% block content %}
+<div class="confirm-wrap anim-up">
+  <div class="confirm-card">
+    <div class="confirm-icon">🗑️</div>
+    <h2>O'chirishni tasdiqlang</h2>
+    <p>
+      Quyidagi e'lon butunlay o'chiriladi va<br>
+      <strong style="color:#FF5555;">qaytarib bo'lmaydi</strong>.
+    </p>
+
+    <div class="confirm-item">
+      {% if advens.image %}
+      <img src="{{ advens.image.url }}" alt="{{ advens.title }}">
+      {% endif %}
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">{{ advens.category.name }}</div>
+        <div class="confirm-item-name">{{ advens.title }}</div>
+        <div class="confirm-item-price">{{ advens.price|floatformat:0 }} so'm</div>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Bu amalni orqaga qaytarib bo'lmaydi. E'lon hamda unga bog'liq rasm o'chib ketadi.
+    </div>
+
+    <form method="POST">
+      {% csrf_token %}
+      <div class="confirm-btns">
+        <button type="submit" class="btn btn-danger btn-lg">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
+          Ha, o'chirish
+        </button>
+        <a href="{% url 'advens' advens.id %}" class="btn btn-outline btn-lg">Bekor qilish</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

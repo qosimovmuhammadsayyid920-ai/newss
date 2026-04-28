@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}E'lonni tahrirlash — Elon.uz{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="form-page">
+
+    <div class="hero" style="padding-top:36px;">
+      <div class="hero-eyebrow">Admin panel</div>
+      <h1 class="hero-title">E'lonni <em>tahrirlash</em></h1>
+    </div>
+
+    <div class="form-card anim-up d2">
+      <div class="form-card-title">Ma'lumotlarni yangilash</div>
+      <p class="form-card-sub">O'zgartirishlarni kiriting va saqlang</p>
+
+      <form method="POST" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div class="field">
+          <label class="field-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}
+            <div class="field-hint">{{ field.help_text }}</div>
+          {% endif %}
+          {% if field.errors %}
+            {% for error in field.errors %}
+            <div class="field-error">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              {{ error }}
+            </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary btn-lg">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v14z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Saqlash
+          </button>
+          <a href="javascript:history.back()" class="btn btn-outline btn-lg">Bekor qilish</a>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  {% include 'components/_link.html' %}
+</head>
+<body>
+  {% include 'layoud/navbar.html' %}
+
+  <div class="main-wrap">
+    {% block content %}{% endblock %}
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <div class="footer__logo">
+            <span class="footer__logo-icon">E</span>
+            <span>ELON<strong>.UZ</strong></span>
+          </div>
+          <p class="footer__tagline">O'zbekistondagi eng ishonchli e'lonlar platformasi</p>
+        </div>
+        <nav class="footer__nav">
+          <a href="{% url 'home' %}">E'lonlar</a>
+          {% if user.is_staff %}
+          <a href="{% url 'add_advesn' %}">E'lon qo'shish</a>
+          <a href="{% url 'add_category' %}">Kategoriya</a>
+          <a href="/admin/">Admin</a>
+          {% endif %}
+        </nav>
+        <p class="footer__copy">© 2025 Elon.uz · Barcha huquqlar himoyalangan</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

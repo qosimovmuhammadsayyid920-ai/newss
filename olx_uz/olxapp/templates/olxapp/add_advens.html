@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}E'lon qo'shish — Elon.uz{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="form-page">
+
+    <div class="hero" style="padding-top:36px;">
+      <div class="hero-eyebrow">Admin panel</div>
+      <h1 class="hero-title">Yangi <em>E'lon</em></h1>
+    </div>
+
+    <div class="form-card anim-up d2">
+      <div class="form-card-title">E'lon ma'lumotlari</div>
+      <p class="form-card-sub">Barcha maydonlarni to'liq va aniq to'ldiring</p>
+
+      <form method="POST" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+        <div
+          style="background:#fee2e2; border:1px solid #f87171; color:#b91c1c; padding:12px 16px; border-radius:8px; margin-bottom:16px;">
+          ⚠️ {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+        </div>
+        {% endif %}
+
+        {% for field in form %}
+        {% if field.errors %}
+        <div
+          style="background:#fee2e2; border:1px solid #f87171; color:#b91c1c; padding:12px 16px; border-radius:8px; margin-bottom:8px;">
+          ⚠️ {{ field.label }}: {% for error in field.errors %}{{ error }}{% endfor %}
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% for field in form %}
+        <div class="field">
+          <label class="field-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}
+          {% for error in field.errors %}
+          <div class="field-error">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            {{ error }}
+          </div>
+          {% endfor %}
+          {% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary btn-lg">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            E'lonni joylash
+          </button>
+          <a href="{% url 'home' %}" class="btn btn-outline btn-lg">Bekor qilish</a>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
