@@ -13,5 +13,6 @@ urlpatterns = [
     path('advens/<int:advens_id>/delete/', views.delete_advens, name='delete_advens'),
     path('advens/<int:adversiment_id>/comment/', views.create_comment, name='create_comment'),
     path('advens/<int:comment_id>/comment/update', views.update_comment, name='update_comment'),
-    path('advens/<int:comment_id>/<int:advens_id>/comment/delete/', views.delete_comment, name='delete_comment')
+    path('advens/<int:comment_id>/<int:advens_id>/comment/delete/', views.delete_comment, name='delete_comment'),
+    path('advens/add/bookmark/<int:advertisment_id>/', views.add_bookmark, name='add_bookmark')
 ]

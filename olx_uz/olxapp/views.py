@@ -1,14 +1,31 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Category, Advertisement, Comment
+from .models import Category, Advertisement, Comment, BookMark
 from django.http import HttpRequest
 from .forms import CategoryForm, AdvertisementForm, CommentForm
 from django.contrib.auth.decorators import login_required
 
 def home(request: HttpRequest):
-    advertisements = Advertisement.objects.all()
     categories = Category.objects.all()
 
-
+    if request.GET.get('adversisment'):
+        if not request.user.is_authenticated:
+            return redirect('home')
+        advertisements = []
+        bookmarks = BookMark.objects.filter(user=request.user)
+        for bookmark in bookmarks:
+            advertisment = bookmark.advertisement
+            advertisment.like = True
+            advertisements.append(advertisment)
+    else:
+        advertisements = Advertisement.objects.all()
+        if request.user.is_authenticated:
+            for advertisment in advertisements:
+                res = advertisment.bookmark_set.filter(user=request.user).exists()
+                if res:
+                    advertisment.like = True
+        else:
+            advertisment = Advertisement.objects.all()
+    
     context = {
         'advertisements': advertisements,
         'categories': categories
@@ -135,7 +152,7 @@ def delete_category(request: HttpRequest, category_id: int):
     return redirect('home')
 
 
-# comment start
+#---/comment start\-----
 
 def create_comment(request: HttpRequest, adversiment_id: int):
     if request.user.is_authenticated:
@@ -153,7 +170,7 @@ def create_comment(request: HttpRequest, adversiment_id: int):
     
 @login_required(login_url='home')
 def update_comment(request: HttpRequest, comment_id: int):
-    comment = get_object_or_404(Category, id=comment_id)
+    comment = get_object_or_404(Comment, id=comment_id)
     if comment.user == request.user:
         if request.method == 'POST':
             form = CommentForm(data=request.POST, instance=comment)
@@ -173,7 +190,22 @@ def update_comment(request: HttpRequest, comment_id: int):
 
 @login_required(login_url='home')
 def delete_comment(request: HttpRequest, comment_id: int, advens_id: int):
-    comment = get_object_or_404(Category, id=comment_id)
+    comment = get_object_or_404(Comment, id=comment_id)
     if comment.user == request.user or request.user.is_superuser:
         comment.delete()
     return redirect('advens', ad_id=advens_id)
+
+#---/comment edn\-----
+
+#---/bookmark start\-----
+
+@login_required(login_url='home')
+def add_bookmark(request: HttpRequest, advertisment_id: int):
+    advertisement = get_object_or_404(Advertisement, id=advertisment_id)
+    bookmark, created = BookMark.objects.get_or_create(advertisement=advertisement, user=request.user)
+    if not created:
+        bookmark.delete()
+    current_page = request.META.get('HTTP_REFERER', 'home')
+    return redirect(current_page)
+
+#---/bookmark end\-----
