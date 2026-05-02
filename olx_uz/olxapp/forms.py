@@ -18,6 +18,7 @@ class CategoryForm(forms.ModelForm):
         name = cleaned_data.get('name')
         if not name[0].isupper():
             raise ValidationError('Ismning bosh harfi katta harfda bolsihi kerak!!!')
+        
 class AdvertisementForm(forms.ModelForm):
     class Meta:
         model = Advertisement

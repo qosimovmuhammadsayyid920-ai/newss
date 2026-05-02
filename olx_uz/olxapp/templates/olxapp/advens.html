@@ -75,6 +75,32 @@
         </div>
       </div>
 
+      <div class="divider"></div>
+
+      <!-- ADVERTISTER -->
+      {% with advertisters=ad.advertisters.all %}
+      {% if advertisters %}
+      <div style="margin-top:12px;">
+        <div class="detail-desc-label" style="margin-bottom:10px;">E'lon joylagan</div>
+        {% for advertister in advertisters %}
+        <div style="display:flex; align-items:center; gap:10px; padding:10px 12px; background:var(--surface2, #000000); border-radius:10px; margin-bottom:8px;">
+          <div style="width:36px; height:36px; border-radius:50%; background:var(--accent, #2563eb); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:15px; flex-shrink:0;">
+            {{ advertister.name|first|upper }}
+          </div>
+          <div>
+            <div style="font-weight:600; font-size:14px;">{{ advertister.name }}</div>
+            {% if advertister.phone_number %}
+            <div style="font-size:13px; color:var(--text3, #6b7280); margin-top:2px;">
+              📞 {{ advertister.phone_number }}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% endwith %}
+
       <button class="contact-btn">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path

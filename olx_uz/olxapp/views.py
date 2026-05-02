@@ -3,6 +3,8 @@ from .models import Category, Advertisement, Comment, BookMark
 from django.http import HttpRequest
 from .forms import CategoryForm, AdvertisementForm, CommentForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.core.paginator import Paginator
 
 def home(request: HttpRequest):
     categories = Category.objects.all()
@@ -26,8 +28,10 @@ def home(request: HttpRequest):
         else:
             advertisment = Advertisement.objects.all()
     
+    paginatore = Paginator(advertisements, 3)
+    page = paginatore.page(request.GET.get('page', 1))
     context = {
-        'advertisements': advertisements,
+        'page': page,
         'categories': categories
     }
 
@@ -58,14 +62,13 @@ def ad(request: HttpRequest, ad_id):
 
     return render(request, 'olxapp/advens.html', context)
 
-
-
 def add_advens(request: HttpRequest):
     if request.user.is_staff:
         if request.method == 'POST':
             form = AdvertisementForm(data=request.POST, files=request.FILES)
             if form.is_valid():
                 advens = form.save()
+                messages.success(request, 'Elon muvofaqiyatli qoshildi!')
                 return redirect('advens', ad_id=advens.id)
         else:
             form = AdvertisementForm()
@@ -98,6 +101,7 @@ def update_category(request: HttpRequest, category_id: int):
             form = CategoryForm(data=request.POST, files=request.FILES, instance=category)
             if form.is_valid():
                 form.save()
+                messages.success(request, "Katigoriya muvofaqiyatli yangilandi!")
                 return redirect('advens_by_category', category_id=category.id)
         else:
             form = CategoryForm(instance=category)
@@ -115,6 +119,7 @@ def update_advens(request: HttpRequest, ad_id: int):
             form = AdvertisementForm(data=request.POST, files=request.FILES, instance=advens)
             if form.is_valid():
                 form.save()
+                messages.success(request, "Elon muvofaqiyatli yangilandi!")
                 return redirect('advens', ad_id=advens.id)
         else:
             form = AdvertisementForm(instance=advens)
@@ -130,6 +135,7 @@ def delete_advens(request: HttpRequest, advens_id: int):
         advens = get_object_or_404(Advertisement, id=advens_id)
         if request.method == "POST":
             advens.delete()
+            messages.success(request, "Elon muvofaqiyatli ochirildi!")
             return redirect('home')
         
         context = {
@@ -143,6 +149,7 @@ def delete_category(request: HttpRequest, category_id: int):
         category = get_object_or_404(Category, id=category_id)
         if request.method == "POST":
             category.delete()
+            messages.success(request, "Katigoriya muvofaqiyatli ochirildi!")
             return redirect('home')
         context = {
             'category': category
