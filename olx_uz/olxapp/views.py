@@ -28,7 +28,7 @@ def home(request: HttpRequest):
         else:
             advertisment = Advertisement.objects.all()
     
-    paginatore = Paginator(advertisements, 3)
+    paginatore = Paginator(advertisements, 4)
     page = paginatore.page(request.GET.get('page', 1))
     context = {
         'page': page,

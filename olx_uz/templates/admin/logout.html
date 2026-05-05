@@ -1,0 +1,159 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% trans "Chiqildi" %} | {{ site_header|default:"Admin Panel" }}</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0f172a;
+  background-image:
+    radial-gradient(ellipse at 0% 0%, rgba(99,102,241,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 100%, rgba(14,165,233,0.12) 0%, transparent 50%);
+}
+
+.card {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px;
+  background: #1e293b;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px;
+  padding: 40px 36px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+  text-align: center;
+}
+
+.icon-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.icon {
+  width: 64px;
+  height: 64px;
+  background: rgba(99,102,241,0.12);
+  border: 1px solid rgba(99,102,241,0.2);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon svg {
+  width: 30px;
+  height: 30px;
+  stroke: #818cf8;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+h1 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #f1f5f9;
+  margin-bottom: 10px;
+  letter-spacing: -0.3px;
+}
+
+p {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.divider {
+  height: 1px;
+  background: rgba(255,255,255,0.05);
+  margin: 0 0 28px;
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  height: 46px;
+  background: linear-gradient(135deg, #6366f1, #0ea5e9);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 46px;
+  transition: opacity 0.2s, transform 0.1s;
+  margin-bottom: 12px;
+}
+
+.btn-primary:hover { opacity: 0.9; }
+.btn-primary:active { transform: scale(0.98); }
+
+.btn-secondary {
+  display: block;
+  width: 100%;
+  height: 44px;
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  color: #94a3b8;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 41px;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.btn-secondary:hover {
+  border-color: rgba(255,255,255,0.15);
+  color: #f1f5f9;
+}
+
+.footer {
+  margin-top: 24px;
+  font-size: 12px;
+  color: #334155;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="icon-wrap">
+    <div class="icon">
+      <svg viewBox="0 0 24 24">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+    </div>
+  </div>
+
+  <h1>{% trans "Tizimdan chiqildi" %}</h1>
+  <p>{% trans "Siz muvaffaqiyatli tizimdan chiqdingiz. Xavfsizlik uchun brauzerni yoping." %}</p>
+
+  <div class="divider"></div>
+
+  <a href="{% url 'admin:index' %}" class="btn-primary">{% trans "Qayta kirish" %}</a>
+  <a href="/" class="btn-secondary">{% trans "Bosh sahifaga o'tish" %}</a>
+
+  <div class="footer">© {% now "Y" %} {{ site_header|default:"Admin Panel" }}</div>
+</div>
+
+</body>
+</html>
