@@ -36,6 +36,9 @@ class AdvertisementForm(forms.ModelForm):
             }),
             "image": forms.FileInput(attrs={
                 "class": "form-control"
+            }),
+            "video": forms.FileInput(attrs={
+                "class": "form-control"
             })
         }
 

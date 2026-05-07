@@ -48,7 +48,8 @@ class Advertisement(models.Model):
     title = models.CharField(max_length=200, verbose_name='Nomi')
     description = models.TextField(verbose_name='Izoh')
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Narxi')
-    image = models.ImageField(upload_to='images/', verbose_name='Rasm')
+    image = models.ImageField(upload_to='images/', verbose_name='Rasm', null=True, blank=True)
+    video = models.FileField(upload_to='video/', verbose_name='Video', null=True, blank=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -66,9 +67,16 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     edited = models.BooleanField(default=False)
 
-
     def __str__(self):
         return f"{self.user} {self.advertisment}"
+    
+    def save(self, *args, **kwargs):  # to'g'ri signature
+        if self.pk:
+            old = Comment.objects.get(pk=self.pk)
+            if old.text != self.text:
+                self.edited = True
+        super().save(*args, **kwargs)
+    
     
     class Meta:
         verbose_name = 'Izox'
